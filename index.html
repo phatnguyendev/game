@@ -6,7 +6,7 @@
     <title>Kết Quả Trò Chơi Dự Đoán</title>
     <style>
         h1{
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             text-transform: uppercase;
             color: #00ac4f;
@@ -21,6 +21,9 @@
             margin-top: 0px;
             margin-bottom: 5px;
             font-family: 'Asap', sans-serif;
+            width: 80%;
+            margin-left: 10%;
+            line-height: 24px;
         }
         .quiz-container {
             text-align: center;
@@ -62,6 +65,57 @@
             color: #333;
             font-family: 'Asap', sans-serif;
         }
+        .quiz-container .d-flex{
+            display: flex;
+            -webkit-box-pack: end !important;
+            -ms-flex-pack: end !important;
+            justify-content: flex-end !important;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .quiz-container .language{
+            display: inline-block;
+            font-size: 16px;
+            font-family: 'Asap', sans-serif;
+            color:#333;
+            margin-right: 10px;
+        }
+        #chooselanguage{
+            width: 100px;
+            height: 35px;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            margin-right: 10px;
+            font-size: 14px;
+            font-family: 'Asap', sans-serif;
+        }
+        .result{
+            padding-left:10px;
+            padding-right:10px;
+            line-height:24px;
+        }
+        .loading {
+	border-bottom: 4px solid #00ac4f36;
+    border-left: 4px solid #00ac4f36;
+    border-right: 4px solid #00ac4f36;
+    border-top: 4px solid #00ac4fba;
+    border-radius: 100%;
+    height: 24px;
+    width: 24px;
+    animation: spin .6s infinite linear;
+    text-indent: 999em;
+    margin: 15px auto;
+}
+.loading{display:none}
+@keyframes spin {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(359deg);}
+}
         @media only screen and (max-width: 900px) {
             .quiz-container {
                 padding: 0px;
@@ -76,34 +130,86 @@
 <body>
 
 <div class="quiz-container">
-    <h1>Kết Quả Trò Chơi Dự Đoán</h1>
+    <div class="d-flex">
+        <span class="language" id="language">Ngôn ngữ/ Language: </span>
+        <select  name="choose-language" id="chooselanguage" onchange="getComboA(this)">
+            <option value="vietnam">Tiếng Việt</option>
+            <option value="english">English</option>
+        </select>
+    </div>
+    <h1 class="title" id="title">Kết quả Quiz Game</h1>
     <div class="container">
-        <h2>Nhập số bạn đã đoán:</h2>
-        <input required  type="number" id="guess" placeholder="Nhập số của bạn"  >
-        <button id="checkButton"  >Kiểm tra kết quả</button>
+        <h2 class="quiz" id="quiz">Bạn đã tìm thấy bao nhiêu con vật trong hình?</h2>
+        <input type="number" id="guess" placeholder="Nhập câu trả lời"  >
+        <button id="checkButton">Kiểm tra kết quả</button>
+        <div class="loading" id="loading">Loading...</div>
         <div id="result" class="result">&nbsp;</div>
     </div>
+    
 </div>
 
 <script>
+    function getComboA(selectObject) {
+        var value = selectObject.value; 
+        const inputguess = document.getElementById('guess');
+        inputguess.value="";
+        document.getElementById("result").innerHTML = "";
+        if (value =="english"){
+           // document.getElementById("language").innerHTML = "Language:";
+            document.getElementById("title").innerHTML = "Quiz Game Result";
+            document.getElementById("quiz").innerHTML = "How many animals did you find in the picture?";
+            document.getElementById("checkButton").innerHTML = "Check";
+            document.getElementById("guess").placeholder = "Enter answer";
+
+        }else{
+            //document.getElementById("language").innerHTML = "Ngôn ngữ:";
+            document.getElementById("title").innerHTML = "Kết quả Quiz Game";
+            document.getElementById("quiz").innerHTML = "Bạn đã tìm thấy bao nhiêu con vật trong hình? ";
+            document.getElementById("checkButton").innerHTML = "Kiểm tra kết quả";
+            document.getElementById("guess").placeholder = "Nhập câu trả lời";
+
+        }
+    }
    
     document.getElementById('checkButton').addEventListener('click', function() {
         const correctNumber = 12;
         const guess = document.getElementById('guess').value;
         const resultElement = document.getElementById('result');
+        var chooselanguage = document.getElementById("chooselanguage");
+        var valuechooselanguage = chooselanguage.value;
+        document.getElementById("loading").style.display = "block";
+        setTimeout(function () {
+            document.getElementById("loading").style.display = "none";
+            if (guess == "") {
+                if(valuechooselanguage=="vietnam"){
+                    resultElement.textContent = "Bạn chưa nhập câu trả lời!";
+                    resultElement.style.color = "#856404";
+                }else{
+                    resultElement.textContent = "You haven't entered your answer yet!";
+                    resultElement.style.color = "#856404";
+                }
+                
+                }else if (guess == correctNumber) {
+                    if(valuechooselanguage=="vietnam"){
+                        resultElement.textContent = "Chúc mừng! Bạn đã tìm đủ các con vật. Vui lòng chụp màn hình kết quả này và liên hệ Phòng Marketing để nhận quà!";
+                        resultElement.style.color = "#00AC4F";
+                    }else{
+                        resultElement.textContent = "Congratulations! You've found all the animals. Please take a screenshot of this result and present it at the Marketing to claim your prize!";
+                        resultElement.style.color = "#00AC4F";
+                    }
+                } 
+                else {
+                    
+                    if(valuechooselanguage=="vietnam"){
+                        resultElement.textContent = "Rất tiếc, bạn đã đoán chưa đúng. Hãy quan sát kỹ hơn và thử lại nhé!";
+                        resultElement.style.color = "red";
+                    }else{
+                        resultElement.textContent = "Sorry, your guess is not correct. Look carefully and try again!";
+                        resultElement.style.color = "red";
+                    }
+                }
+        },  200);
         
-        if (guess == "") {
-            resultElement.textContent = "Bạn chưa nhập đáp án!.";
-            resultElement.style.color = "#856404";
-        }else if (guess == correctNumber) {
-            
-            resultElement.textContent = "Chúc mừng! Bạn đã đoán đúng.";
-            resultElement.style.color = "#00AC4F";
-        } 
-        else {
-            resultElement.textContent = "Rất tiếc, bạn đã đoán sai. Hãy thử lại!";
-            resultElement.style.color = "red";
-        }
 
         
     });
