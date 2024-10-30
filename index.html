@@ -62,6 +62,15 @@
             color: #333;
             font-family: 'Asap', sans-serif;
         }
+        @media only screen and (max-width: 900px) {
+            .quiz-container {
+                padding: 0px;
+                width: auto;
+            }
+            .result {
+                padding-bottom: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -70,7 +79,7 @@
     <h1>Kết Quả Trò Chơi Dự Đoán</h1>
     <div class="container">
         <h2>Nhập số bạn đã đoán:</h2>
-        <input required  type="number" id="guess" placeholder="Nhập số của bạn" autofocus onfocus="this.select()"  onkeyup="validate(this)" >
+        <input required  type="number" id="guess" placeholder="Nhập số của bạn"  >
         <button id="checkButton"  >Kiểm tra kết quả</button>
         <div id="result" class="result">&nbsp;</div>
     </div>
@@ -83,10 +92,15 @@
         const guess = document.getElementById('guess').value;
         const resultElement = document.getElementById('result');
         
-        if (guess == correctNumber) {
+        if (guess == "") {
+            resultElement.textContent = "Bạn chưa nhập đáp án!.";
+            resultElement.style.color = "#856404";
+        }else if (guess == correctNumber) {
+            
             resultElement.textContent = "Chúc mừng! Bạn đã đoán đúng.";
             resultElement.style.color = "#00AC4F";
-        } else {
+        } 
+        else {
             resultElement.textContent = "Rất tiếc, bạn đã đoán sai. Hãy thử lại!";
             resultElement.style.color = "red";
         }
