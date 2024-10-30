@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Trò Chơi Dự Đoán</title>
+    <style>
+        .quiz-container {
+            text-align: center;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            border-radius: 10px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 80%;
+            border: 1px solid #00AC4F;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00AC4F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #009744;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Kết Quả Trò Chơi Dự Đoán</h1>
+    <div class="container">
+        <h2>Nhập số bạn đã đoán:</h2>
+        <input type="number" id="guess" placeholder="Nhập số của bạn">
+        <button id="checkButton">Kiểm tra kết quả</button>
+        <div id="result" class="result">&nbsp;</div>
+    </div>
+</div>
+
+<script>
+document.getElementById('checkButton').addEventListener('click', function() {
+    const correctNumber = 12;
+    const guess = document.getElementById('guess').value;
+    const resultElement = document.getElementById('result');
+    
+    if (guess == correctNumber) {
+        resultElement.textContent = "Chúc mừng! Bạn đã đoán đúng.";
+        resultElement.style.color = "#00AC4F";
+    } else {
+        resultElement.textContent = "Rất tiếc, bạn đã đoán sai. Hãy thử lại!";
+        resultElement.style.color = "red";
+    }
+});
+</script>
+
+</body>
+</html>
